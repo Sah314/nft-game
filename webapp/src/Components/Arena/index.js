@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {ethers} from 'ethers';
 import { CONTRACT_ADDRESS,ABI,transformCharacterData } from '../../constants';
 import './Arena.css'
-
+import LoadingIndicator from '../LoadingIndicator';
 const Arena = ({characterNFT,setCharacterNFT,currentAccount})=>{
 
     const [gameContract,setGameContract]= useState(null);
-
+    const [showToast,setShowToast] = useState(false);
     const [boss,setBoss] = useState(null);
     const [attackState , setAttackState] = useState('');
+
+
     const runAttackAction = async () => {
 try {
   if(gameContract){
@@ -18,11 +20,11 @@ try {
     await txn.wait();
     console.log("attacktxn: ",txn);
     setAttackState('hit');
-    const tn = await gameContract.replenishHealth();
-    await tn.wait();
+
+    setShowToast(true);
     setTimeout(() => {
-      console.log("playerhealth increased  ",tn);
-    },60000);
+      setShowToast(false);
+    }, 5000);
   }
 } catch (error) {
   console.error(error);
@@ -85,6 +87,11 @@ try {
 
     return(
         <div className='arena-container'>
+          {boss && characterNFT && (
+            <div id="toast" className={showToast ? 'show':''}>
+              <div id="desc">{`${boss.name} was hit for ${characterNFT.attackDamage}!`}</div>
+            </div>
+          )}
           {boss && (
             <div className="boss-container">
               <div className={`boss-container`}>
@@ -100,6 +107,13 @@ try {
               <div className="attack-container">
                 <button className="cta-button" onClick={runAttackAction}>{`Attack ${boss.name}`}</button>
               </div>
+                {attackState==='attacking' && (
+                  <div className="loading-indicator">
+                    <LoadingIndicator/>
+                    <p>Attacking.....</p>
+                  </div>
+                )}
+
             </div>
           )}
 
@@ -121,6 +135,7 @@ try {
               </div>
             </div>
           </div>
+
         </div>
         )}
         </div>

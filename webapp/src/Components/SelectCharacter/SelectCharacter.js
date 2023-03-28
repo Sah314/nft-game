@@ -21,8 +21,9 @@ if(gameContract){
     const mintTxn = await gameContract.mintCharacterNFT(characterId);
     await mintTxn.wait();
     console.log("mintTxn: "+mintTxn);
-    alert("Minted NFT!")}
+    alert("Minted NFT!")
     setMintingCharacter(false);
+}
   } catch (error) {
     console.error(error);
     setMintingCharacter(false);

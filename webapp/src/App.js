@@ -59,7 +59,7 @@ const renderContent =()=>{
       />
      
       <button className="cta-button connect-wallet-button" onClick={connectWalletAction}> Please connect your wallet!!</button>
-    </div>)
+    </div>);
     }
     else if(currentAccount && !characterNFT){
       return <SelectCharacter setCharacterNFT={setCharacterNFT}/>
@@ -118,12 +118,9 @@ const renderContent =()=>{
       const txn = await gameContract.checkIfUserHasNFT();
       if(txn.name){
         console.log("Congratulations you already have a NFT!");
-        
         setCharacterNFT(transformCharacterData(txn));
       }
-      else{
-        console.log("You do not have a NFT");
-      }
+     
       setIsLoading(false);
     };
     if(currentAccount){

@@ -23,7 +23,17 @@
 }
 
 .select-character-container .loading .indicator{
-  
+  display: flex;
+}
+
+.select-character-container .loading .indicator p {
+  font-weight: bold;
+  font-size: 30px;
+  padding-left: 8px;
+}
+.select-character-container .loading img {
+  width:450px;
+  padding-top:25px;
 }
 
 .character-grid .character-item {
