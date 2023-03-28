@@ -3,6 +3,8 @@ import {ethers} from 'ethers';
 import { CONTRACT_ADDRESS,ABI,transformCharacterData } from '../../constants';
 import './Arena.css'
 import LoadingIndicator from '../LoadingIndicator';
+import SelectCharacter from '../SelectCharacter/SelectCharacter';
+
 const Arena = ({characterNFT,setCharacterNFT,currentAccount})=>{
 
     const [gameContract,setGameContract]= useState(null);
@@ -31,8 +33,6 @@ try {
   setAttackState('');
 }
     };
-
-
     useEffect(()=>{
         const {ethereum} = window;
 
@@ -92,7 +92,10 @@ try {
               <div id="desc">{`${boss.name} was hit for ${characterNFT.attackDamage}!`}</div>
             </div>
           )}
-          {boss && (
+          {boss && characterNFT.HP === 0 &&(
+            <SelectCharacter setCharacterNFT={setCharacterNFT}/>
+          )}
+          {boss && characterNFT.HP && (
             <div className="boss-container">
               <div className={`boss-container`}>
                 <h2>{boss.name}</h2>
@@ -117,7 +120,7 @@ try {
             </div>
           )}
 
-{characterNFT &&(
+{characterNFT.HP &&(
 <div className="player-container">
           <div className="player-container">
             <h2>Your Character</h2>
